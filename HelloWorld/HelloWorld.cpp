@@ -34,6 +34,7 @@ using namespace llvm;
 namespace {
 
 // This method implements what the pass does
+// @Adian: All the methods and functions are implemented within the namespace
 void visitor(Function &F) {
     errs() << "(llvm-tutor) Hello from: "<< F.getName() << "\n";
     errs() << "(llvm-tutor)   number of arguments: " << F.arg_size() << "\n";
@@ -57,14 +58,26 @@ struct HelloWorld : PassInfoMixin<HelloWorld> {
 // Legacy PM implementation
 struct LegacyHelloWorld : public FunctionPass {
   static char ID;
+
   LegacyHelloWorld() : FunctionPass(ID) {}
+
+
+//  // @Adian: Put inside maybe an instance method? Direct put does not work.
+//  void visitor(Function &F) {
+//    errs() << "(llvm-tutor) Hello from: "<< F.getName() << "\n";
+//    errs() << "(llvm-tutor)   number of arguments: " << F.arg_size() << "\n";
+//  }
+
   // Main entry point - the name conveys what unit of IR this is to be run on.
   bool runOnFunction(Function &F) override {
+    // @Adian: Where is the entry point for the new PM?
+    errs() << "[LOG] LegacyHelloWorld(), runOnFunction()" << "\n";
     visitor(F);
     // Doesn't modify the input unit of IR, hence 'false'
     return false;
   }
 };
+
 } // namespace
 
 //-----------------------------------------------------------------------------
@@ -76,6 +89,7 @@ llvm::PassPluginLibraryInfo getHelloWorldPluginInfo() {
             PB.registerPipelineParsingCallback(
                 [](StringRef Name, FunctionPassManager &FPM,
                    ArrayRef<PassBuilder::PipelineElement>) {
+                  // @Adian: Name the pass
                   if (Name == "hello-world") {
                     FPM.addPass(HelloWorld());
                     return true;
@@ -90,6 +104,8 @@ llvm::PassPluginLibraryInfo getHelloWorldPluginInfo() {
 // command line, i.e. via '-passes=hello-world'
 extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
+  // @Adian: Work under the so-called new PM
+  errs() << "[LOG] llvmGetPassPluginInfo()" << "\n";
   return getHelloWorldPluginInfo();
 }
 
