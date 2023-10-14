@@ -31,6 +31,9 @@
 *.out
 *.app
 
+# Build dir
+build
+
 # Idea
 .idea
 *.iml
