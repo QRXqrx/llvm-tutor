@@ -1,3 +1,4 @@
+// @Adian: this file is like FSE@23-MirageInstrumentor: https://github.com/WorldExecute/fuzzer/blob/main/driver/MirageInstrumentor.cc
 //========================================================================
 // FILE:
 //    StaticMain.cpp
@@ -28,6 +29,7 @@ using namespace llvm;
 //===----------------------------------------------------------------------===//
 // Command line options
 //===----------------------------------------------------------------------===//
+// @Adian: C++ provide inline APIs for constructing CLI.
 static cl::OptionCategory CallCounterCategory{"call counter options"};
 
 static cl::opt<std::string> InputModule{cl::Positional,

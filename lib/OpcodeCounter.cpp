@@ -30,20 +30,25 @@
 #include "llvm/Passes/PassPlugin.h"
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
 
+// @Adian: namespace is somehow like the import in Python.
 using namespace llvm;
 
 // Pretty-prints the result of this analysis
+// @Adian: Global method; Util method in OO programming.
 static void printOpcodeCounterResult(llvm::raw_ostream &,
                               const ResultOpcodeCounter &OC);
 
 //-----------------------------------------------------------------------------
 // OpcodeCounter implementation
 //-----------------------------------------------------------------------------
+// @Adian: `key` is a private field. Why put this field here?
 llvm::AnalysisKey OpcodeCounter::Key;
 
+// @Adian: Implement the instance methods (maybe public, no accessor) declared in the head file.
 OpcodeCounter::Result OpcodeCounter::generateOpcodeMap(llvm::Function &Func) {
   OpcodeCounter::Result OpcodeMap;
 
+  // @Adian: Traverse every BB in functions and collect the opcode name of the instructions.
   for (auto &BB : Func) {
     for (auto &Inst : BB) {
       StringRef Name = Inst.getOpcodeName();
@@ -59,11 +64,13 @@ OpcodeCounter::Result OpcodeCounter::generateOpcodeMap(llvm::Function &Func) {
   return OpcodeMap;
 }
 
+// @Adian: Seems run() is inherited from the super class. The true type of OpcodeCounter::Result is llvm::StringMap<unsigned>.
 OpcodeCounter::Result OpcodeCounter::run(llvm::Function &Func,
                                          llvm::FunctionAnalysisManager &) {
   return generateOpcodeMap(Func);
 }
 
+// @Adian: Printer's run(). The return type is PreservedAnalyses. So Printer is the true Pass.
 PreservedAnalyses OpcodeCounterPrinter::run(Function &Func,
                                             FunctionAnalysisManager &FAM) {
   auto &OpcodeMap = FAM.getResult<OpcodeCounter>(Func);
@@ -81,9 +88,11 @@ PreservedAnalyses OpcodeCounterPrinter::run(Function &Func,
 //-----------------------------------------------------------------------------
 // New PM Registration
 //-----------------------------------------------------------------------------
+// @Adian: For New PM, getXXXPluginInfo is needed for every pass class XXX.
 llvm::PassPluginLibraryInfo getOpcodeCounterPluginInfo() {
   return {
     LLVM_PLUGIN_API_VERSION, "OpcodeCounter", LLVM_VERSION_STRING,
+        // @Adian: Seems anonymous class
         [](PassBuilder &PB) {
           // #1 REGISTRATION FOR "opt -passes=print<opcode-counter>"
           // Register OpcodeCounterPrinter so that it can be used when

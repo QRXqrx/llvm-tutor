@@ -10,7 +10,7 @@
 // License: MIT
 //==============================================================================
 #ifndef LLVM_TUTOR_OPCODECOUNTER_H
-#define LLVM_TUTOR_OPCODECOUNTER_H
+#define LLVM_TUTOR_OPCODECOUNTER_H // @Adian: Don't know what is this for?
 
 #include "llvm/ADT/StringMap.h"
 #include "llvm/IR/Function.h"
@@ -23,7 +23,9 @@
 //------------------------------------------------------------------------------
 using ResultOpcodeCounter = llvm::StringMap<unsigned>;
 
+// @Adian: Seems "struct == public class" in C++.
 struct OpcodeCounter : public llvm::AnalysisInfoMixin<OpcodeCounter> {
+  // @Adian: Use using to set type alias. Equivalent to a quick definition of a Java bean/record.
   using Result = ResultOpcodeCounter;
   Result run(llvm::Function &F,
                               llvm::FunctionAnalysisManager &);
@@ -43,6 +45,8 @@ private:
 //------------------------------------------------------------------------------
 // New PM interface for the printer pass
 //------------------------------------------------------------------------------
+// @Adian: Declare the class in header file -- Class prototype?
+// @Adian: This class is not a struct. So it is likely not public.
 class OpcodeCounterPrinter : public llvm::PassInfoMixin<OpcodeCounterPrinter> {
 public:
   explicit OpcodeCounterPrinter(llvm::raw_ostream &OutS) : OS(OutS) {}
