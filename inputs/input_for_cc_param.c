@@ -17,11 +17,12 @@ void fez() {bar(); }
 
 int main(int argc, char **argv) {
 
+  // @Adian: Do not push execution forward parameters are not given as required.
+  // @Adian: This example runs well with DynamicCallCounter.
   if (argc < 2) {
-    printf("<input_for_cc_param: <param>\n");
+    printf("<input_for_cc_param>: <param>\n");
     return 0;
   }
-
   printf("argv[0]=%s,argv[1]=%s\n", argv[0], argv[1]);
 
   foo();
