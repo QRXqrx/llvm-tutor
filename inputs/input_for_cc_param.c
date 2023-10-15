@@ -10,24 +10,19 @@
 // @Adian: How the instrumentor handle program need params?
 //=============================================================================
 #include <stdio.h>
-#include <stdlib.h>
 
 void foo() { }
 void bar() {foo(); }
 void fez() {bar(); }
-void blah(int a) {
-  printf("Find param: %d\n", a);
-}
 
 int main(int argc, char **argv) {
 
-  if (argc < 1) {
+  if (argc < 2) {
     printf("<input_for_cc_param: <param>\n");
     return 0;
   }
 
-  int a = atoi(argv[0]);
-  blah(a);
+  printf("argv[0]=%s,argv[1]=%s\n", argv[0], argv[1]);
 
   foo();
   bar();
