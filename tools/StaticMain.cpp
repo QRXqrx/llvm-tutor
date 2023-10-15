@@ -16,6 +16,7 @@
 //
 // License: MIT
 //========================================================================
+// @Adian: Rely on StaticCallCounter.cpp.
 #include "StaticCallCounter.h"
 
 #include "llvm/IRReader/IRReader.h"
@@ -29,7 +30,7 @@ using namespace llvm;
 //===----------------------------------------------------------------------===//
 // Command line options
 //===----------------------------------------------------------------------===//
-// @Adian: C++ provide inline APIs for constructing CLI.
+// @Adian: LLVM APIs for constructing CLI (why do not need llvm::?).
 static cl::OptionCategory CallCounterCategory{"call counter options"};
 
 static cl::opt<std::string> InputModule{cl::Positional,
@@ -66,9 +67,9 @@ static void countStaticCalls(Module &M) {
 // Main driver code.
 //===----------------------------------------------------------------------===//
 int main(int Argc, char **Argv) {
+  // @Adian: LLVM provide inline APIs for constructing CLI.
   // Hide all options apart from the ones specific to this tool
   cl::HideUnrelatedOptions(CallCounterCategory);
-
   cl::ParseCommandLineOptions(Argc, Argv,
                               "Counts the number of static function "
                               "calls in the input IR file\n");
