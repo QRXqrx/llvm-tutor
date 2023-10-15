@@ -15,7 +15,7 @@
 void foo() { }
 void bar() {foo(); }
 void fez() {bar(); }
-void log(int a) {
+void blah(int a) {
   printf("Find param: %d\n", a);
 }
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
   }
 
   int a = atoi(argv[0]);
-  log(a);
+  blah(a);
 
   foo();
   bar();
